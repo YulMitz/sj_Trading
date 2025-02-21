@@ -8,11 +8,13 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
+    "python-dotenv>=1.0.1",
     "shioaji>=1.2.5",
 ]
 
 [project.scripts]
-sj-trading = "sj_trading:main"
+main = "sj_trading:main"
+test = "sj_trading.testing_flow:testing_stock_ordering"
 
 [build-system]
 requires = ["hatchling"]
