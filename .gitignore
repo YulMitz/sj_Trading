@@ -13,6 +13,6 @@ pyproject.toml
 # Virtual environments
 .venv
 
-# personal
+# Environment
 .env
 cert/
