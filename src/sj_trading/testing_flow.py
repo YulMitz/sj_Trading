@@ -1,6 +1,7 @@
 import shioaji as sj
 from shioaji.constant import Action, StockPriceType, OrderType
 import os
+import json
 
 def testing_stock_ordering():
     # 測試環境登入
@@ -10,7 +11,12 @@ def testing_stock_ordering():
         secret_key=os.environ["SECRET_KEY"],
         fetch_contract=True
     )
-    accounts
+    print(f"Login with: {accounts}")
+    print(f"Accounts: {api.list_accounts()}")
+
+    # 設定預設帳號
+    api.set_default_account(api.stock_account)
+    print(f"Default Account: {api.stock_account}")
 
     # 準備下單的 Contract
     # 使用 2890 永豐金為例

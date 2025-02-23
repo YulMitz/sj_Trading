@@ -6,13 +6,12 @@ dist/
 wheels/
 *.egg-info
 
-# uv project related
-uv.lock
-pyproject.toml
-
 # Virtual environments
-.venv
+/.venv
 
 # Environment
-.env
-cert/
+/.env
+/cert/
+
+# Log
+shioaji.log
