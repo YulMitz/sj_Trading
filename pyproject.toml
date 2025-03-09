@@ -15,6 +15,7 @@ dependencies = [
 [project.scripts]
 main = "sj_trading:main"
 test = "sj_trading.testing_flow:testing_stock_ordering"
+preview = "sj_trading.trading_pipeline:preview_market_data"
 
 [build-system]
 requires = ["hatchling"]
