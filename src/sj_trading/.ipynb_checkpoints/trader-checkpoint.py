@@ -72,14 +72,12 @@ class Trading:
         for sym in symbol:
             try:
                 quote = self.api.quote.subscribe(
-                    self.api.Contracts.Stocks[sym], 
-                    quote_type = sj.constant.QuoteType.Quote, 
+                    self.api.Contracts.Stocks[sym],
+                    quote_type = sj.constant.QuoteType.Quote,
                     version = sj.constant.QuoteVersion.v1
                 )
-
-                self.api.quote.set_event_callback
+                print(quote)
                 contract = self.api.Contracts.Stocks[sym]
-                print(contract)
                 data = pd.DataFrame({
                     'symbol': [sym],
                     'limit_up': [contract.limit_up],
@@ -95,15 +93,8 @@ class Trading:
             if not data.empty:
                 try:
                     market_data[sym] = data
-                    logger.info(f"{sym} has been read in market data")
                 except Exception as e:
                     logger.error(f"Error combining {sym} market data into dataframe: {e}")
-
-            if quote:
-                try:
-                    print(quote)
-                except Exception as e:
-                    logger.error(f"Quote for {sym} is missing or not successfully subscribed")
 
         self.market_data = market_data
         return market_data
@@ -114,7 +105,7 @@ class Trading:
         Analyze trading signal for given symbol and strategy
 
         Args:
-            default: SMA-20
+            default:
             ma_crossover:
             rsi:
         """

@@ -10,7 +10,7 @@ def main():
     api.login(
         api_key=os.environ["API_KEY"],
         secret_key=os.environ["SECRET_KEY"],
-        fetch_contract=False,
+        fetch_contract=True,
         contracts_timeout=10000
     )
     print("Simulation environment login success")

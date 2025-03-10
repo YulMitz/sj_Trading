@@ -14,9 +14,14 @@ dependencies = [
 
 [project.scripts]
 main = "sj_trading:main"
-test = "sj_trading.testing_flow:testing_stock_ordering"
-preview = "sj_trading.trading_pipeline:preview_market_data"
+test_ordering = "sj_trading.testing_flow:testing_stock_ordering"
+test_market_data = "sj_trading.testing_flow:test_market_data"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+]

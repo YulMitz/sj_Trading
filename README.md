@@ -18,3 +18,8 @@
 ### 帳務
 1. list_positions
 2. list_profit_loss
+
+## Start a Jupyter notebook environment
+'''
+uv run --with jupyter jupyter lab
+'''

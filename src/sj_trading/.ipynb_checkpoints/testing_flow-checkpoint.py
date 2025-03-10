@@ -4,19 +4,16 @@ import shioaji as sj
 from sj_trading import account, trader
 from shioaji.constant import Action, StockPriceType, OrderType
 
-def login():
-    api = sj.Shioaji(simulation=True)
-    api.login(
-        api_key=os.environ["API_KEY"],
-        secret_key=os.environ["SECRET_KEY"],
-        fetch_contract=True,
-        contracts_timeout=10000
-    )
-    print("Simulation environment login success")
-    return api
+api = sj.Shioaji(simulation=True)
+api.login(
+    api_key=os.environ["API_KEY"],
+    secret_key=os.environ["SECRET_KEY"],
+    fetch_contract=True,
+    contracts_timeout=10000
+)
+print("Simulation environment login success")
 
 def test_market_data():
-    api = login()
     Trader = trader.Trading(api, account.profile)
     test_symbols = ['2330', '2454']
 
@@ -25,7 +22,14 @@ def test_market_data():
 
 def test_stock_ordering():
     # 測試環境登入
-    api = login()
+    api = sj.Shioaji(simulation=True)
+    accounts = api.login(
+        api_key=os.environ["API_KEY"],
+        secret_key=os.environ["SECRET_KEY"],
+        fetch_contract=True
+    )
+    print(f"Login with: {accounts}")
+    print(f"Accounts: {api.list_accounts()}")
 
     # 設定預設帳號
     api.set_default_account(api.stock_account)
