@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
 import logging
 import shioaji as sj
 import pandas as pd
@@ -32,7 +33,7 @@ class Trading:
 
     def get_market_data(self, symbol:List[str]) -> Dict[str, any]:
         """
-        Fetch market data for given symbol from TSE
+        Fetch quote market data for given symbol from TSE
 
         Args:
             symbol: Stock code follow by specific exchange, ex. TSE2330
@@ -69,26 +70,62 @@ class Trading:
         """
         market_data = {}
 
+        now = datetime.now()
+        weekday = now.weekday()
+        hour = now.hour
+        minute = now.minute
+        simulation = False
+
+        # If not in market time or not in trading day, simulate transaction by historical ticks
+        if weekday >= 5:
+            logger.info(f"Today is not trading day")
+            match weekday:
+                case 5:
+                    nearest_trading_day = now - timedelta(days=1)
+                case 6:
+                    nearest_trading_day = now - timedelta(days=2)
+            simulation = True
+
+        if weekday < 5 and (hour <= 9 or hour >= 13):
+            if (hour == 9 and minute < 30) or (hour == 13 and minute > 30):
+                logger.info(f"Trading day, but market is closed")
+                nearest_trading_day = now - timedelta(days=1)
+                simulation = True
+
         for sym in symbol:
             try:
-                quote = self.api.quote.subscribe(
-                    self.api.Contracts.Stocks[sym], 
-                    quote_type = sj.constant.QuoteType.Quote, 
-                    version = sj.constant.QuoteVersion.v1
-                )
-
-                self.api.quote.set_event_callback
                 contract = self.api.Contracts.Stocks[sym]
-                print(contract)
-                data = pd.DataFrame({
-                    'symbol': [sym],
-                    'limit_up': [contract.limit_up],
-                    'limit_down': [contract.limit_down],
-                    'reference': [contract.reference],
-                    'update_date': [contract.update_date],
-                    'margin_trading_balance': [contract.margin_trading_balance],
-                    'short_selling_balance': [contract.short_selling_balance]
-                })
+
+                if simulation:
+                    logger.info(f"Simulate transaction by historical ticks for {sym}")
+                    # Get historical ticks data
+                    ticks = self.api.ticks(contract = contract, date = nearest_trading_day.strftime("%Y-%m-%d"))
+                    data = pd.DataFrame({**ticks})
+                    data.ts = pd.to_datetime(data.ts)
+                else:
+                    # Get real-time tick data
+                    Tick = self.api.quote.subscribe(
+                        contract,
+                        quote_type=sj.constant.QuoteType.Tick,
+                        version=sj.constant.QuoteVersion.v1,
+                        intraday_odd=True
+                    )
+                    
+                    # Timeout machinism while trading
+                    start_time = time.time()
+                    timeout = 30
+                    
+                    while Tick is None:
+                        logger.info(f"Waiting for real-time tick data for {sym}")
+                        time.sleep(0.5)
+
+                        if time.time() - start_time > timeout:
+                            logger.error(f"Timeout waiting for real-time tick data for {sym}")
+                            break
+
+                    logger.info(f"Real-time tick data for {sym} has been received")
+
+                    data = pd.DataFrame({**Tick})
             except Exception as e:
                 logger.error(f"Error fetching data for symbol {sym}: {e}")
         
@@ -98,12 +135,6 @@ class Trading:
                     logger.info(f"{sym} has been read in market data")
                 except Exception as e:
                     logger.error(f"Error combining {sym} market data into dataframe: {e}")
-
-            if quote:
-                try:
-                    print(quote)
-                except Exception as e:
-                    logger.error(f"Quote for {sym} is missing or not successfully subscribed")
 
         self.market_data = market_data
         return market_data
@@ -123,13 +154,35 @@ class Trading:
             logger.error(f"No market data available for {symbol}")
             return {'signal': 'none', 'strength': 0, 'reason': 'No data available'}
         
+        # Get market data for signal calculation
         data = self.market_data[symbol]
-        return data
+
+        match strategy:
+            case 'default':
+                signal = self.strategy_default(data)
+            case 'ma_crossover':
+                signal = self.strategy_ma_crossover(data)
+            case 'rsi':
+                signal = self.strategy_rsi(data)
+            case _:
+                logger.error(f"Unknown strategy: {strategy}")
+                return {'signal': 'none', 'strength': 0, 'reason': 'Unknown strategy'}
+
+        return signal
     
-    def strategy_default(self) -> Dict[str, any]:
+    def strategy_default(self, df: pd.DataFrame) -> Dict[str, any]:
         """
+        Default strategy: SMA-20
+
+        Args:
+            df: Dataframe of real-time tick data
         """
-    
+
+        df['SMA-20'] = df['close'].rolling(window=20).mean()
+        df['SMA-diff'] = df['close'] - df['SMA-20']
+        df['SMA-lag-diff'] = df['SMA-diff'].shift(periods=1)
+
+        return df
     def strategy_ma_crossover(self) -> Dict[str, any]:
         """
         """
@@ -161,4 +214,3 @@ class Trading:
     def trading_loop(self) -> Dict[str, any]:
         """
         """
-

@@ -1,7 +1,7 @@
 import os
 import json
 import shioaji as sj
-from sj_trading import account, trader
+from sj_trading import account, trader_long_term
 from shioaji.constant import Action, StockPriceType, OrderType
 
 def login():
@@ -17,7 +17,7 @@ def login():
 
 def test_market_data():
     api = login()
-    Trader = trader.Trading(api, account.profile)
+    Trader = trader_long_term.Trading(api, account.profile)
     test_symbols = ['2330', '2454']
 
     Trader.get_market_data(test_symbols)

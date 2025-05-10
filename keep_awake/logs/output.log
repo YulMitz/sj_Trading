@@ -1,0 +1,12 @@
+2025-05-10 14:35:23,307 - INFO - Main process PID: 3912672 written to matmul_worker.pid
+2025-05-10 14:35:23,326 - INFO - Keep awake program now running with 4 CPU workers and 2 GPU workers.
+2025-05-10 14:35:24,144 - INFO - [CPU Worker 3] running, PID: 3912693
+2025-05-10 14:35:24,189 - INFO - [CPU Worker 1] running, PID: 3912691
+2025-05-10 14:35:24,195 - INFO - [CPU Worker 2] running, PID: 3912692
+2025-05-10 14:35:24,218 - INFO - [CPU Worker 0] running, PID: 3912690
+2025-05-10 14:35:24,275 - INFO - [GPU Worker] GPU 0 running, PID: 3912694
+2025-05-10 14:35:24,292 - INFO - [GPU Worker] GPU 1 running, PID: 3912695
+2025-05-10 14:37:02,411 - INFO - [GPU Worker] GPU 0 had completed 50 matmul operations
+2025-05-10 14:37:02,432 - INFO - [GPU Worker] GPU 1 had completed 50 matmul operations
+/home/ttsai/miniconda3/lib/python3.11/multiprocessing/resource_tracker.py:224: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
