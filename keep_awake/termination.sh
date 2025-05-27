@@ -24,6 +24,20 @@ else
     
     # Add the main PID to the list
     PIDS="$MAIN_PID $PIDS"
+
+    # Add the main PID to the list
+    PIDS="$MAIN_PID $PIDS"
+
+    PID_PREFIX=${MAIN_PID:0:3}
+    echo "Searching for all processes with PID starting with $PID_PREFIX..."
+
+    # List all PIDs, filter those starting with PID_PREFIX, exclude already found PIDs
+    EXTRA_PIDS=$(ps -e -o pid= | awk -v pre="$PID_PREFIX" '{if($1 ~ "^"pre) print $1}' | grep -v -w -e "$MAIN_PID" $(echo $PIDS | sed 's/ / -e /g'))
+
+    if [ ! -z "$EXTRA_PIDS" ]; then
+        echo "Also found these processes by PID prefix: $EXTRA_PIDS"
+        PIDS="$PIDS $EXTRA_PIDS"
+    fi
 fi
 
 # Count processes to terminate

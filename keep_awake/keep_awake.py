@@ -2,7 +2,7 @@ import time
 import multiprocessing as mp
 import os
 import atexit
-import logging
+import logging # Not default
 import sys
 import signal
 
@@ -26,10 +26,10 @@ logger = logging.getLogger()
 # Params
 # -------------------------------
 # CPU
-CPU_MATRIX_SIZE = 128
+CPU_MATRIX_SIZE = 512
 
 # GPU
-GPU_MATRIX_SIZE = 256
+GPU_MATRIX_SIZE = 10000
 
 # Run duration
 RUN_DURATION = None  # None for forever
@@ -60,7 +60,7 @@ def cpu_worker(stop_event: mp.Event, worker_id: int):
         iteration += 1
         if iteration % 100 == 0:
             logger.info(f"[CPU Worker {worker_id}] had completed {iteration} matmul operations")
-        time.sleep(3)
+        time.sleep(0.01)
 
 
 # -------------------------------
@@ -88,7 +88,6 @@ def gpu_worker(stop_event: mp.Event, gpu_id: int):
         if iteration % 50 == 0:
             logger.info(f"[GPU Worker] GPU {gpu_id} had completed {iteration} matmul operations")
             torch.cuda.empty_cache()
-        time.sleep(2)
 
 
 # -------------------------------
@@ -106,7 +105,7 @@ def main():
     stop_event = mp.Event()
 
     # Start CPU workers
-    cpu_worker_count = 4
+    cpu_worker_count = 3
     cpu_workers = []
     for i in range(cpu_worker_count):
         p = mp.Process(target=cpu_worker, args=(stop_event, i))
@@ -130,7 +129,7 @@ def main():
     try:
         if RUN_DURATION is None:
             while True:
-                time.sleep(1)
+                time.sleep(0.5)
         else:
             time.sleep(RUN_DURATION)
     except KeyboardInterrupt:

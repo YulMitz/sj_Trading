@@ -15,3 +15,7 @@ wheels/
 
 # Log
 shioaji.log
+/keep_awake/logs/
+
+# Jupyter notebook checkpoints
+/.ipynb_checkpoints/
