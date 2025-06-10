@@ -1,25 +1,4 @@
-
-## 模擬環境下可以使用的 APIs
-### 行情資料
-1. quote.subscribe
-2. quote.unsubscribe
-3. ticks
-4. kbars
-5. snapshots
-6. short_stock_sources
-7. credit_enquires
-8. scanners
-### 下單
-1. place_order
-2. update_order
-3. cancel_order
-4. update_status
-5. list_trades
-### 帳務
-1. list_positions
-2. list_profit_loss
-
-## Start a Jupyter notebook environment
-'''
-uv run --with jupyter jupyter lab
-'''
+### 如果 GPU 閒置超過3小時機器就會收回！
+* 透過 `uvx nvitop` 確認目前 GPU 和 CPU 使用狀況
+* 當要 run 自己的 code 時，到 ` /root/sj_Trading/keep_awake` 底下在 terminal 執行 `./termination.sh`
+* 當要閒置，沒有要用的時候，到同個目錄，執行 `./start.sh`

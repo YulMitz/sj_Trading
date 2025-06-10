@@ -14,8 +14,8 @@ wheels/
 /cert/
 
 # Log
-shioaji.log
-/keep_awake/logs/
+*.log
+*.pid
 
 # Jupyter notebook checkpoints
 /.ipynb_checkpoints/
