@@ -1,0 +1,1 @@
+{"_step":300,"train/lr":8.000000000000001e-11,"train/avg_wps":430.21408602656237,"train/eta_in_seconds":0,"_wandb":{"runtime":2862},"train/allocated_mem":7.483469486236572,"_runtime":2862.169513745,"train/percent_done":100,"train/peak_allocated_mem":10.528414726257324,"train/loss":1.6776372194290161,"train/wps":432.73962626679,"_timestamp":1.7499721517365334e+09}

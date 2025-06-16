@@ -1,0 +1,51 @@
+{
+  "os": "Linux-6.5.0-28-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.10.12",
+  "startedAt": "2025-06-15T06:34:49.841120Z",
+  "args": [
+    "example/7B.yaml"
+  ],
+  "program": "-m train",
+  "git": {
+    "remote": "https://github.com/mistralai/mistral-finetune.git",
+    "commit": "656df1c94c80ca9703ebc471c9f106c9b7a0bfa7"
+  },
+  "email": "yulmitz753220@gmail.com",
+  "root": "/home/ttsai/mulkooo/sj_Trading/experiment",
+  "host": "ttsai-System-Product-Name",
+  "executable": "/home/ttsai/mulkooo/mistral-finetune/.venv/bin/python3.10",
+  "cpu_count": 16,
+  "cpu_count_logical": 24,
+  "gpu": "NVIDIA GeForce RTX 4060 Ti",
+  "gpu_count": 2,
+  "disk": {
+    "/": {
+      "total": "2014574526464",
+      "used": "603735982080"
+    }
+  },
+  "memory": {
+    "total": "134791036928"
+  },
+  "cpu": {
+    "count": 16,
+    "countLogical": 24
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 4060 Ti",
+      "memoryTotal": "17175674880",
+      "cudaCores": 4352,
+      "architecture": "Ada",
+      "uuid": "GPU-d8790c41-acce-dec6-9d34-e5bdc9ce2f70"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 4060 Ti",
+      "memoryTotal": "17175674880",
+      "cudaCores": 4352,
+      "architecture": "Ada",
+      "uuid": "GPU-b561e0b8-f65a-d12a-d56e-feca1b824459"
+    }
+  ],
+  "cudaVersion": "12.9"
+}
