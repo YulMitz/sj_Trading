@@ -19,3 +19,5 @@ wheels/
 
 # Jupyter notebook checkpoints
 /.ipynb_checkpoints/
+
+model/
