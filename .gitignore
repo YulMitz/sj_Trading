@@ -21,3 +21,4 @@ wheels/
 /.ipynb_checkpoints/
 
 model/
+merge/*.safetensors
